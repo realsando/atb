@@ -16,7 +16,7 @@ function isConnected(){
 }
 
 function instance(){
-    return client
+    return client;
 };
 
 export default instance;

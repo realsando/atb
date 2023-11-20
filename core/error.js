@@ -3,8 +3,9 @@ export default {
 
     // request
     invalid_request: 10,
-    invalid_signature: 11,
-    invalid_params: 12,
-    unauthorized_signature: 13,
+    invalid_instruction: 11,
+    invalid_signature: 12,
+    invalid_params: 13,
+    unauthorized_signature: 14,
 
 }

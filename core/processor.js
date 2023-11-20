@@ -5,43 +5,36 @@ import ERROR from './error.js';
 
 export default async (request, callback) => {
 
+
+    // Retrieve request parameters
     try{
-        // var _instruction = request.body.instruction,
-        //     _payload = request.body.payload,
-        //     _certif = request.body.certif,
-        //     _timestamp = request.body.timestamp,
-        //     _bin = request.files?.bin
-
-        // var params = _payload ? JSON.parse(_payload) : {}
-        //     params.bin = _bin
-        //     params.wire = request.body.wire
-        //     params.timestamp = _timestamp
+        var params = {
+            instruction: request.query?.instruction,
+            payload: request.query?.payload,
+            // certif: request.body?.certif,
+            // timestamp: request.body?.timestamp
+        };
+        if(Object.keys(params).filter(v=> !params[v]).length > 0) throw ERROR.invalid_request;
     }catch(_){
-        callback({error: ERROR.invalid_request})
-        return
+        callback(_);
+        return;
     }
 
-    // check message integrity
-        /// TODO:
-        /// check schema constraints
-        /// the collection exists
-        /// all the fields exists
-        /// all the mandatory fields (if create)
-    if(!(_instruction && Instruction.isValid(_instruction))){
-        callback({error: ERROR.invalid_request})
-        return
+    // Verify parameters
+    if(!(params.instruction && Instruction.isValid(params.instruction))){
+        callback(ERROR.invalid_instruction);
+        return;
     }
 
-    // check the user permission for the instruction
-        /// access permission check: user <-> schema
+    // Verify access right
+    /// TODO
 
     // call the instruction
     try{
-        Instruction[_instruction](params, address, callback)
+        Instruction[params.instruction](params, callback)
     }catch(_){
-        callback({error: ERROR.invalid_signature, comment: _})
+        callback(ERROR.invalid_signature);
         return
     }
-
 
 }

@@ -1,8 +1,5 @@
-// import Connector from './connector/index.mjs'
-import Entry from './core/entry.js'
-// import Schema from './schema/index.mjs'
 
-var _tags = [
+var _schema = [
     {
         name: 'contract',
         fields: [
@@ -13,17 +10,10 @@ var _tags = [
     }
 ]
 
-async function main(tags){
 
-    Entry.start();
-
-    // Schema.init(tags);
-    
-    // Connector.init('mongodb');
-
-    // Api.build();
-    // Api.start();
-
+// sample
+var query = {
+    collection: '<name of collection>',
+    operation: 'find',
+    parameters: []
 }
-
-main(_tags)
