@@ -5,14 +5,22 @@ const TIMEOUT = 3 *(60*1000)
 
 export default class Instruction {
 
-    static async query(params, callback){
+    static async query({collection,operation,args}, callback){
 
-            /// TODO:
-            /// check schema constraints
-            /// the collection exists
-            /// all the fields exists
-            /// all the mandatory fields (if create)
-            /// access permission check: user <-> schema
+        if(!collection||!operation||args.length<1){
+            callback(ERROR.invalid_operation);
+            return;
+        }
+
+        /// TODO:
+        /// check schema constraints
+        /// the collection exists
+        /// all the fields exists
+        /// all the mandatory fields (if create)
+        /// access permission check: user <-> schema
+
+        const q_string = `db.${collection}.(${args.join(',')})`;
+
 
         console.log( await connector._.ping() );
 
