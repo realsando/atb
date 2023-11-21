@@ -5,23 +5,22 @@ import ERROR from './error.js';
 
 export default async (request, callback) => {
 
-
     // Retrieve request parameters
     try{
-        var params = {
+        var _ = {
             instruction: request.query?.instruction,
-            payload: request.query?.payload,
+            payload: JSON.parse(request.query?.payload),
             // certif: request.body?.certif,
             // timestamp: request.body?.timestamp
         };
-        if(Object.keys(params).filter(v=> !params[v]).length > 0) throw ERROR.invalid_request;
-    }catch(_){
-        callback(_);
+        if(Object.keys(_).filter(v=> !_[v]).length) throw '';
+    }catch(e){
+        callback(ERROR.invalid_request);
         return;
     }
 
     // Verify parameters
-    if(!(params.instruction && Instruction.isValid(params.instruction))){
+    if(!(_.instruction && Instruction.isValid(_.instruction))){
         callback(ERROR.invalid_instruction);
         return;
     }
@@ -31,7 +30,7 @@ export default async (request, callback) => {
 
     // call the instruction
     try{
-        Instruction[params.instruction](params, callback)
+        Instruction[_.instruction](_.payload, callback)
     }catch(_){
         callback(ERROR.invalid_signature);
         return

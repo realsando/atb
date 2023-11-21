@@ -1,14 +1,17 @@
-import instance from './mongo_instance.js'
+import instance from './mongo_instance.js';
+const db_name = 'test';
 
 async function _init(tables){
-    var res = await instance().connect();
+    await instance().connect();
     /// TODO: handle connection errors / timeouts
-    return res;
+    // db = 
 }
 
 
 export default {
-    // find: () => instance,
-    ping: () => instance().db('admin').command({ ping: 1 }),
     init: _init,
+    db: instance().db(db_name),
+    ping: () => instance().db(db_name).command({ ping: 1 }),
+    listCollections: () => instance().db(db_name).listCollections({}).toArray(),
+    // createCollection: (col, options) => instance().db(db_name).createCollection(col, options),
 }
